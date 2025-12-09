@@ -61,13 +61,12 @@ const HeroSection = () => {
         <div
           key={i}
           ref={(el) => (floatRefs.current[i] = el)}
-          className={`absolute hidden lg:block glass-effect rounded-2xl p-4 ${
-            i === 1 ? 'top-20 left-20' :
-            i === 2 ? 'top-40 right-20' :
-            i === 3 ? 'bottom-40 left-32' :
-            i === 4 ? 'bottom-20 right-32' :
-            'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
-          }`}
+          className={`absolute hidden lg:block glass-effect rounded-2xl p-4 ${i === 1 ? 'top-20 left-20' :
+              i === 2 ? 'top-40 right-20' :
+                i === 3 ? 'bottom-40 left-32' :
+                  i === 4 ? 'bottom-20 right-32' :
+                    'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+            }`}
         >
           {i === 1 && <Code2 className="w-8 h-8 text-primary" />}
           {i === 2 && <Sparkles className="w-8 h-8 text-secondary" />}
@@ -101,27 +100,29 @@ const HeroSection = () => {
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto">
-            Turning your wildest digital dreams into reality. 
+            Turning your wildest digital dreams into reality.
             We&apos;re The Codency – where code meets creativity and coffee fuels innovation!
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <motion.button
+            <motion.a
+              href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center space-x-3"
             >
               <Sparkles className="w-5 h-5" />
               <span>Start Your Project</span>
-            </motion.button>
-            <motion.button
+            </motion.a>
+            <motion.a
+              href="#projects"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-dark border-2 border-primary/20 rounded-2xl font-bold text-lg hover:bg-primary/5 transition-all duration-300"
             >
               See Our Magic Works
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Fun Stats */}

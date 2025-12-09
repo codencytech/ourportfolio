@@ -1,3 +1,5 @@
+'use client'
+
 import { Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react'
 
 const Footer = () => {
@@ -10,12 +12,27 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">C</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold">CODENCY</h3>
-                <p className="text-secondary text-sm">Digital Brilliance</p>
+              <div className="w-40 h-12 relative">
+                <img
+                  src="/logo.png"
+                  alt="The Codency Logo"
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    // Fallback if logo doesn't load
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+              <span class="text-white font-bold text-2xl">C</span>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-white">CODENCY</h3>
+              <p class="text-secondary text-sm">Digital Brilliance</p>
+            </div>
+          </div>
+        `;
+                  }}
+                />
               </div>
             </div>
             <p className="text-gray-300">

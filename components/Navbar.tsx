@@ -67,10 +67,13 @@ const Navbar = () => {
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                             </Link>
                         ))}
-                        <button className="px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center space-x-2">
+                        <a
+                            href="#contact"
+                            className="px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center space-x-2"
+                        >
                             <Sparkles className="w-4 h-4" />
                             <span>Let&apos;s Build</span>
-                        </button>
+                        </a>
                     </div>
 
                     {/* Mobile Menu Button */}

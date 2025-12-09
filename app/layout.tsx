@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import AnimatedBackground from '@/components/AnimatedBackground'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.className} antialiased`}>
-        <div className="min-h-screen flex flex-col">
+        <AnimatedBackground />
+        <div className="min-h-screen flex flex-col relative z-10">
           <Navbar />
           <main className="flex-1">
             {children}

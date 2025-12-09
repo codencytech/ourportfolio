@@ -92,7 +92,7 @@ const ServicesSection = () => {
             viewport={{ once: true }}
             className="text-xl text-gray-600 max-w-3xl mx-auto"
           >
-            We create digital experiences that users love and businesses rave about. 
+            We create digital experiences that users love and businesses rave about.
             Here&apos;s how we turn your ideas into reality (with a sprinkle of magic).
           </motion.p>
         </div>
@@ -109,11 +109,10 @@ const ServicesSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setActiveService(index)}
-                className={`cursor-pointer rounded-2xl p-6 transition-all duration-300 ${
-                  activeService === index
+                className={`cursor-pointer rounded-2xl p-6 transition-all duration-300 ${activeService === index
                     ? 'bg-white shadow-2xl border-2 border-primary/20'
                     : 'bg-white/50 hover:bg-white/80 hover:shadow-lg border border-gray-100'
-                }`}
+                  }`}
               >
                 <div className="flex items-start space-x-4">
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center flex-shrink-0`}>
@@ -124,11 +123,10 @@ const ServicesSection = () => {
                       <h3 className="text-xl font-bold text-dark mb-2">
                         {service.title}
                       </h3>
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        activeService === index
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${activeService === index
                           ? 'bg-primary/10 text-primary'
                           : 'bg-gray-100 text-gray-600'
-                      }`}>
+                        }`}>
                         {service.price}
                       </span>
                     </div>
@@ -238,7 +236,7 @@ const ServicesSection = () => {
                     Ready to Start Your Project?
                   </h3>
                   <p className="text-gray-600 mb-6">
-                    Let&apos;s create something amazing together. 
+                    Let&apos;s create something amazing together.
                     First consultation is free (and comes with virtual coffee ☕).
                   </p>
                   <div className="space-y-3">
@@ -256,9 +254,12 @@ const ServicesSection = () => {
                   </div>
                 </div>
                 <div className="text-center">
-                  <button className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 mb-4 w-full">
+                  <a
+                    href="#contact"
+                    className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 mb-4 w-full block text-center"
+                  >
                     Book Free Consultation
-                  </button>
+                  </a>
                   <p className="text-sm text-gray-500">
                     ⚡ Average response time: 2 hours (we&apos;re quick like our code!)
                   </p>

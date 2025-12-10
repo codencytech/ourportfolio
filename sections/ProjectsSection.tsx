@@ -2,7 +2,15 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, ArrowRight, Filter, Smartphone, Monitor, Globe } from 'lucide-react'
+import {
+  ExternalLink,
+  Github,
+  ArrowRight,
+  Filter,
+  Smartphone,
+  Monitor,
+  Globe
+} from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -11,286 +19,305 @@ gsap.registerPlugin(ScrollTrigger)
 const ProjectsSection = () => {
   const [activeFilter, setActiveFilter] = useState('all')
   const projectsRef = useRef<HTMLDivElement>(null)
+  const tiltRefs = useRef<HTMLDivElement[]>([])
 
   const categories = [
     { id: 'all', label: 'All Magic', icon: Filter, count: 8 },
     { id: 'web', label: 'Web Apps', icon: Globe, count: 4 },
     { id: 'mobile', label: 'Mobile', icon: Smartphone, count: 2 },
-    { id: 'desktop', label: 'Desktop', icon: Monitor, count: 2 },
+    { id: 'desktop', label: 'Desktop', icon: Monitor, count: 2 }
   ]
 
   const projects = [
     {
       id: 1,
       title: 'Nexus Dashboard',
-      description: 'A smart dashboard that predicts trends before they happen. Because why be surprised?',
+      image: 'nexus.jpg', // sample
+      description: 'A smart dashboard that predicts future trends.',
       category: ['web', 'desktop'],
       tech: ['React', 'Node.js', 'AI'],
-      imageColor: 'from-blue-500 to-purple-600',
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+      featured: true
     },
     {
       id: 2,
       title: 'FlowSync App',
-      description: 'Mobile app that syncs your life across devices. Lost your phone? Never again!',
+      image: 'flowsync.jpg',
+      description: 'Mobile app that syncs your life seamlessly.',
       category: ['mobile'],
-      tech: ['React Native', 'Firebase', 'Redux'],
-      imageColor: 'from-green-500 to-teal-600',
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+      tech: ['React Native', 'Firebase']
     },
     {
       id: 3,
       title: 'Quantum UI Library',
-      description: 'Design components that adapt to users\' moods. Happy users, happy developers!',
+      image: 'quantum.jpg',
+      description: 'Adaptive UI components with mood-based styling.',
       category: ['web'],
-      tech: ['TypeScript', 'Tailwind', 'Framer'],
-      imageColor: 'from-orange-500 to-pink-600',
-      liveUrl: '#',
-      githubUrl: '#',
+      tech: ['TypeScript', 'Tailwind', 'Framer']
     },
     {
       id: 4,
       title: 'Nova Analytics',
-      description: 'Data visualization that makes numbers look cool. Yes, even spreadsheets!',
+      image: 'nova.jpg',
+      description: 'Cinematic data visualization dashboard.',
       category: ['web', 'desktop'],
-      tech: ['Next.js', 'D3.js', 'PostgreSQL'],
-      imageColor: 'from-purple-500 to-indigo-600',
-      liveUrl: '#',
-      githubUrl: '#',
+      tech: ['Next.js', 'D3.js']
     },
     {
       id: 5,
       title: 'Echo Social',
-      description: 'Social platform where your posts never get lost. Unlike my car keys...',
+      image: 'echo.jpg',
+      description: 'Social platform built for deeper engagement.',
       category: ['mobile', 'web'],
-      tech: ['Flutter', 'GraphQL', 'AWS'],
-      imageColor: 'from-red-500 to-yellow-600',
-      liveUrl: '#',
-      githubUrl: '#',
+      tech: ['Flutter', 'AWS']
     },
     {
       id: 6,
       title: 'Pixel Perfect Studio',
-      description: 'Design tool that automatically fixes alignment issues. OCD-friendly!',
+      image: 'pixel.jpg',
+      description: 'Auto-align design suite with smart snapping.',
       category: ['desktop'],
-      tech: ['Electron', 'Canvas API', 'Rust'],
-      imageColor: 'from-cyan-500 to-blue-600',
-      liveUrl: '#',
-      githubUrl: '#',
-    },
+      tech: ['Electron', 'Rust']
+    }
   ]
 
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category.includes(activeFilter))
+  const filtered =
+    activeFilter === 'all'
+      ? projects
+      : projects.filter((p) => p.category.includes(activeFilter))
 
+  // Scroll reveal animation
   useEffect(() => {
-    if (projectsRef.current) {
-      const cards = projectsRef.current.querySelectorAll('.project-card')
-      
-      cards.forEach((card, index) => {
-        gsap.fromTo(card,
-          {
-            opacity: 0,
-            y: 50,
-            scale: 0.9,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: index * 0.1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top bottom-=100',
-              toggleActions: 'play none none reverse',
-            }
+    if (!projectsRef.current) return
+    const cards = projectsRef.current.querySelectorAll('.project-card')
+
+    cards.forEach((card, i) => {
+      gsap.fromTo(
+        card,
+        {
+          opacity: 0,
+          y: 100,
+          rotateX: 12,
+          scale: 0.9
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          scale: 1,
+          duration: 1.1,
+          delay: i * 0.12,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom-=80'
           }
-        )
-      })
-    }
-  }, [activeFilter])
+        }
+      )
+    })
+  }, [filtered])
+
+  // 3D tilt interaction
+  useEffect(() => {
+    tiltRefs.current.forEach((card) => {
+      if (!card) return
+
+      const move = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect()
+        const x = e.clientX - (rect.left + rect.width / 2)
+        const y = e.clientY - (rect.top + rect.height / 2)
+
+        gsap.to(card, {
+          rotateY: x / 30,
+          rotateX: -y / 30,
+          transformPerspective: 900,
+          duration: 0.4
+        })
+      }
+
+      const reset = () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.6,
+          ease: 'elastic.out(1,0.3)'
+        })
+      }
+
+      card.addEventListener('mousemove', move)
+      card.addEventListener('mouseleave', reset)
+    })
+  }, [filtered])
+
+  /** MOCKUP SELECTOR
+   * category.includes("mobile") → phone mockup
+   * category.includes("web" or "desktop") → browser mockup
+   * else → cinematic raw 21:9
+   */
+  const getMockupType = (p: any) => {
+    if (p.category.includes('mobile')) return 'mobile'
+    if (p.category.includes('web') || p.category.includes('desktop'))
+      return 'browser'
+    return 'cinematic'
+  }
 
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-1/2 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent -translate-x-1/2" />
-        <div className="absolute bottom-20 left-20 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
+    <section id="projects" className="py-24 relative overflow-hidden">
+
+      {/* Fog + glow cinematic background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-32 left-10 w-72 h-72 bg-primary/10 blur-[140px] rounded-full" />
+        <div className="absolute bottom-32 right-20 w-96 h-96 bg-secondary/10 blur-[150px] rounded-full" />
+        <div className="absolute inset-0 mix-blend-overlay opacity-[0.04]"
+          style={{ background: "url('https://grainy-gradients.vercel.app/noise.svg')" }}
+        />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center space-x-2 mb-4"
-          >
+      <div className="container mx-auto px-4 relative z-10">
+
+        {/* Header */}
+        <div className="text-center mb-16">
+          <span className="inline-flex items-center space-x-2 mb-4">
             <div className="w-2 h-2 bg-accent rounded-full" />
-            <span className="text-sm font-semibold gradient-text uppercase tracking-wider">
-              Our Portfolio
-            </span>
+            <span className="text-sm font-semibold gradient-text uppercase tracking-wider">Our Portfolio</span>
             <div className="w-2 h-2 bg-accent rounded-full" />
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6"
-          >
-            <span className="text-dark">Projects That </span>
-            <span className="gradient-text">Spark Joy</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
-          >
-            Each project is a story of challenges, coffee, and eventual triumph. 
-            Here&apos;s some of our favorite adventures!
-          </motion.p>
+          </span>
+
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="text-dark">Cinematic </span>
+            <span className="gradient-text">Project Showcase</span>
+          </h2>
+
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            A hybrid 3D experience bringing your projects to life with motion, depth, and cinematic lighting.
+          </p>
         </div>
 
-        {/* Category Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {categories.map((category) => (
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-4 mb-14">
+          {categories.map((cat) => (
             <button
-              key={category.id}
-              onClick={() => setActiveFilter(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                activeFilter === category.id
-                  ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/30'
-                  : 'bg-white text-dark border border-gray-200 hover:border-primary/50 hover:shadow-md'
+              key={cat.id}
+              onClick={() => setActiveFilter(cat.id)}
+              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${
+                activeFilter === cat.id
+                  ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/30 scale-[1.05]'
+                  : 'bg-white text-dark border border-gray-200 hover:border-primary/50'
               }`}
             >
-              <category.icon className="w-4 h-4" />
-              <span>{category.label}</span>
-              <span className={`px-2 py-1 rounded-full text-xs ${
-                activeFilter === category.id 
-                  ? 'bg-white/20' 
-                  : 'bg-gray-100'
-              }`}>
-                {category.count}
-              </span>
+              <cat.icon className="w-4 h-4" />
+              {cat.label}
             </button>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Projects Grid */}
-        <div ref={projectsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              layout
-              initial={false}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`project-card group relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 card-hover border border-gray-100 ${
-                project.featured ? 'lg:col-span-2 lg:row-span-2' : ''
-              }`}
-            >
-              {/* Project Image */}
-              <div className={`h-48 ${project.imageColor} relative overflow-hidden`}>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-                <div className="absolute top-4 right-4 flex space-x-2">
-                  {project.category.map((cat) => (
-                    <span key={cat} className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold text-white">
-                      {cat}
-                    </span>
-                  ))}
+        {/* Projects */}
+        <div ref={projectsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {filtered.map((p, i) => {
+            const mockup = getMockupType(p)
+
+            return (
+              <div
+                key={p.id}
+                ref={(el) => el && (tiltRefs.current[i] = el)}
+                className="project-card rounded-3xl bg-white shadow-xl hover:shadow-2xl border
+                border-gray-100 overflow-hidden transform-gpu transition-all duration-500 cursor-pointer relative"
+              >
+
+                {/* Cinematic shine sweep */}
+                <div className="absolute inset-0 z-20 opacity-0 hover:opacity-100 transition-all duration-[1500ms]"
+                  style={{
+                    background:
+                      'linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
+                    mixBlendMode: 'overlay'
+                  }}
+                />
+
+                {/* Thumbnail */}
+                <div className="relative w-full aspect-[21/9] overflow-hidden bg-black">
+                  
+                  {/* MOCKUP TYPE SWITCH */}
+                  {mockup === 'browser' && (
+                    <div className="absolute top-0 left-0 w-full h-8 bg-white/90 border-b border-gray-300 flex items-center gap-2 px-4 z-30">
+                      <div className="w-3 h-3 bg-red-400 rounded-full" />
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full" />
+                      <div className="w-3 h-3 bg-green-400 rounded-full" />
+                    </div>
+                  )}
+
+                  {mockup === 'mobile' && (
+                    <div className="absolute inset-0 w-full h-full z-30 pointer-events-none flex items-center justify-center">
+                      <div className="w-[80%] h-[85%] rounded-[2rem] border-[10px] border-black/50 shadow-2xl overflow-hidden"></div>
+                    </div>
+                  )}
+
+                  {/* IMAGE */}
+                  <img
+                    src={`/images/projects/${p.image}`}
+                    alt={p.title}
+                    className="absolute inset-0 w-full h-full object-cover object-center
+                    transition-transform duration-700 group-hover:scale-[1.15] brightness-[0.92]"
+                  />
+
+                  {/* cinematic gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 opacity-70" />
                 </div>
-                {project.featured && (
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-accent rounded-full text-xs font-bold text-white">
-                    🔥 Featured
+
+                {/* Content */}
+                <div className="p-6 relative z-10">
+                  <h3 className="text-2xl font-bold mb-2 text-dark group-hover:gradient-text transition-all">
+                    {p.title}
+                  </h3>
+
+                  <p className="text-gray-600 mb-4">{p.description}</p>
+
+                  {/* Tech */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {p.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="px-3 py-1 bg-light rounded-full text-sm font-medium"
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                )}
-              </div>
 
-              {/* Project Content */}
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-3 text-dark group-hover:gradient-text transition-all duration-300">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  {project.description}
-                </p>
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-4">
+                      <a
+                        href="#"
+                        className="flex items-center gap-2 text-primary hover:text-secondary transition-all"
+                      >
+                        <ExternalLink className="w-4 h-4" /> Live
+                      </a>
+                      <a
+                        href="#"
+                        className="flex items-center gap-2 text-dark hover:text-primary transition-all"
+                      >
+                        <Github className="w-4 h-4" /> Code
+                      </a>
+                    </div>
 
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 bg-light rounded-full text-sm font-medium text-dark"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex justify-between items-center">
-                  <div className="flex space-x-3">
-                    <a
-                      href={project.liveUrl}
-                      className="flex items-center space-x-2 text-primary hover:text-secondary transition-colors duration-200"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      <span className="font-semibold">Live Demo</span>
-                    </a>
-                    <a
-                      href={project.githubUrl}
-                      className="flex items-center space-x-2 text-dark hover:text-primary transition-colors duration-200"
-                    >
-                      <Github className="w-4 h-4" />
-                      <span className="font-semibold">Code</span>
-                    </a>
+                    <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-primary transition-all group-hover:translate-x-2" />
                   </div>
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-2 transition-all duration-300" />
                 </div>
-              </div>
 
-              {/* Hover Effect */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/30 rounded-3xl transition-all duration-300 pointer-events-none" />
-            </motion.div>
-          ))}
+              </div>
+            )
+          })}
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="glass-effect rounded-3xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4 gradient-text">
-              Got an Idea? Let&apos;s Build It!
-            </h3>
-            <p className="text-gray-600 mb-6">
-              We&apos;re always up for a challenge. The weirder, the better! 
-              Bonus points if it involves solving problems with code.
-            </p>
-            <button className="px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 flex items-center space-x-2 mx-auto">
+        <div className="mt-20 text-center">
+          <div className="glass-effect rounded-3xl p-10 max-w-xl mx-auto backdrop-blur-xl border border-white/20">
+            <h3 className="text-2xl font-bold gradient-text mb-3">Let’s Build Something Incredible</h3>
+            <p className="text-gray-600 mb-6">Your ideas deserve a cinematic digital experience.</p>
+            <button className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:shadow-xl transition-all flex items-center gap-2 mx-auto">
               <span>Start Your Project</span>
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

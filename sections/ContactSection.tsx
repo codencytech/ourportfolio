@@ -42,14 +42,14 @@ const ContactSection = () => {
     {
       icon: Mail,
       title: 'Email Us',
-      info: 'hello@codency.com',
+      info: 'codencyindia@gmail.com',
       subtitle: 'We reply faster than you can say "bug fix"',
       color: 'from-blue-500 to-purple-600',
     },
     {
       icon: Phone,
       title: 'Call Us',
-      info: '+1 (555) COD-ENCY',
+      info: '+91 9648383818, +91 9653007175',
       subtitle: 'Available 9AM-6PM EST (coffee breaks included)',
       color: 'from-green-500 to-teal-600',
     },

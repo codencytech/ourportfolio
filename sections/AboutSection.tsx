@@ -6,14 +6,14 @@ import { Users, Rocket, Coffee, Zap, Target, Globe } from 'lucide-react'
 const AboutSection = () => {
   const founders = [
     {
-      name: 'Founder One',
+      name: 'Ayush Kumar Singh',
       role: 'Code Wizard & CEO',
       description: 'Turns coffee into clean code. Loves solving problems before they exist.',
       funFact: 'Can debug while sleeping',
       color: 'from-primary to-secondary',
     },
     {
-      name: 'Founder Two',
+      name: 'Pranjal Gupta',
       role: 'Design Guru & CTO',
       description: 'Makes pixels dance. Believes good design should make you smile.',
       funFact: 'Dreams in CSS gradients',

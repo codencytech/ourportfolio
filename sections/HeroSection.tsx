@@ -9,7 +9,7 @@ const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const floatRefs = useRef<(HTMLDivElement | null)[]>([])
-  const magneticRefs = useRef<HTMLDivElement[]>([])
+  const magneticRefs = useRef<HTMLElement[]>([])
 
   useEffect(() => {
     // Floating Elements (improved)
@@ -100,14 +100,17 @@ const HeroSection = () => {
       {[1, 2, 3, 4, 5].map((i) => (
         <div
           key={i}
-          ref={(el) => (floatRefs.current[i] = el)}
+          ref={(el) => {
+            floatRefs.current[i] = el ?? null
+          }}
+
           className={`
             absolute hidden lg:block rounded-2xl p-4 backdrop-blur-md border border-white/10 shadow-lg shadow-black/5
             ${i === 1 ? 'top-20 left-20' :
               i === 2 ? 'top-40 right-20' :
-              i === 3 ? 'bottom-40 left-32' :
-              i === 4 ? 'bottom-20 right-32' :
-              'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'}
+                i === 3 ? 'bottom-40 left-32' :
+                  i === 4 ? 'bottom-20 right-32' :
+                    'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'}
           `}
           style={{
             background: 'rgba(255,255,255,0.08)',
@@ -174,7 +177,12 @@ const HeroSection = () => {
             {/* Button 1 - Magnetic */}
             <motion.a
               href="#contact"
-              ref={(el) => el && magneticRefs.current.push(el)}
+              ref={(el) => {
+                if (el && !magneticRefs.current.includes(el)) {
+                  magneticRefs.current.push(el)
+                }
+              }}
+
               whileHover={{ scale: 1.07 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-2xl font-bold text-lg 
@@ -188,7 +196,12 @@ const HeroSection = () => {
             {/* Button 2 - Magnetic */}
             <motion.a
               href="#projects"
-              ref={(el) => el && magneticRefs.current.push(el)}
+              ref={(el) => {
+                if (el && !magneticRefs.current.includes(el)) {
+                  magneticRefs.current.push(el)
+                }
+              }}
+
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-dark border-2 border-primary/20 rounded-2xl font-bold text-lg 

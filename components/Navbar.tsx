@@ -108,7 +108,12 @@ const Navbar = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                ref={(el) => el && magneticRefs.current.push(el)}
+                ref={(el) => {
+                  if (el && !magneticRefs.current.includes(el)) {
+                    magneticRefs.current.push(el)
+                  }
+                }}
+
                 className="text-dark hover:text-primary transition-colors duration-200 font-medium relative group"
               >
                 {item.label}

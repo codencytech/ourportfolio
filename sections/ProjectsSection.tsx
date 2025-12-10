@@ -198,11 +198,10 @@ const ProjectsSection = () => {
             <button
               key={cat.id}
               onClick={() => setActiveFilter(cat.id)}
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${
-                activeFilter === cat.id
+              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${activeFilter === cat.id
                   ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/30 scale-[1.05]'
                   : 'bg-white text-dark border border-gray-200 hover:border-primary/50'
-              }`}
+                }`}
             >
               <cat.icon className="w-4 h-4" />
               {cat.label}
@@ -218,7 +217,12 @@ const ProjectsSection = () => {
             return (
               <div
                 key={p.id}
-                ref={(el) => el && (tiltRefs.current[i] = el)}
+                ref={(el) => {
+                  if (el) {
+                    tiltRefs.current[i] = el
+                  }
+                }}
+
                 className="project-card rounded-3xl bg-white shadow-xl hover:shadow-2xl border
                 border-gray-100 overflow-hidden transform-gpu transition-all duration-500 cursor-pointer relative"
               >
@@ -234,7 +238,7 @@ const ProjectsSection = () => {
 
                 {/* Thumbnail */}
                 <div className="relative w-full aspect-[21/9] overflow-hidden bg-black">
-                  
+
                   {/* MOCKUP TYPE SWITCH */}
                   {mockup === 'browser' && (
                     <div className="absolute top-0 left-0 w-full h-8 bg-white/90 border-b border-gray-300 flex items-center gap-2 px-4 z-30">
